@@ -23,6 +23,9 @@ bullets = []
 spawn_timer = 0
 spawn_rate = 120
 
+# 🟡 NUOVO: sistema kill
+kills = 0
+
 font = pygame.font.SysFont(None, 40)
 
 running = True
@@ -38,7 +41,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # 🔫 SPARO (COMMIT 10)
+        # 🔫 SPARO
         if event.type == pygame.KEYDOWN:
 
             if event.key == pygame.K_f:
@@ -65,24 +68,43 @@ while running:
         enemies.append(Enemy())
         spawn_timer = 0
 
-    # ---------------- UPDATE ENEMIES ----------------
-    for enemy in enemies:
+    # ---------------- ENEMIES UPDATE ----------------
+    for enemy in enemies[:]:
+
         enemy.move()
         enemy.draw(screen)
 
-    # ---------------- BULLETS UPDATE ----------------
+        # ❌ se esce dallo schermo → perdi vita
+        if enemy.x < -100:
+            enemies.remove(enemy)
+            player.lives -= 1
+
+    # ---------------- BULLETS UPDATE + COLLISIONI ----------------
     for bullet in bullets[:]:
 
         bullet.move()
         bullet.draw(screen)
 
-        # elimina proiettile fuori schermo
+        # elimina fuori schermo
         if bullet.x > WIDTH:
             bullets.remove(bullet)
+            continue
+
+        # 🔥 COLLISIONE BULLET - ENEMY
+        for enemy in enemies[:]:
+
+            if bullet.rect().colliderect(enemy.rect()):
+
+                enemies.remove(enemy)
+                bullets.remove(bullet)
+
+                kills += 1  # 🟡 AUMENTA KILL
+
+                break
 
     # ---------------- UI ----------------
     text = font.render(
-        f"Vite: {player.lives}",
+        f"Vite: {player.lives}  Kills: {kills}",
         True,
         (255, 255, 255)
     )
