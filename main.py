@@ -1,5 +1,7 @@
 import pygame
+import random
 from player import Player
+from enemy import Enemy
 
 pygame.init()
 
@@ -7,14 +9,19 @@ WIDTH = 1000
 HEIGHT = 500
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
 pygame.display.set_caption("Dino Shooter")
 
 clock = pygame.time.Clock()
 
 player = Player()
 
-# FONT (NUOVO)
+# --- LISTA NEMICI (NUOVO) ---
+enemies = []
+
+# --- SPAWN TIMER (NUOVO) ---
+spawn_timer = 0
+spawn_rate = 120  # più basso = più nemici
+
 font = pygame.font.SysFont(None, 40)
 
 running = True
@@ -32,12 +39,30 @@ while running:
 
     screen.fill((30, 30, 30))
 
+    # ---------------- PLAYER ----------------
+
     player.move(keys)
     player.apply_gravity()
-
     player.draw(screen)
 
-    # ❤️ UI VITE (NUOVO)
+    # ---------------- SPAWN ENEMIES ----------------
+
+    spawn_timer += 1
+
+    if spawn_timer >= spawn_rate:
+
+        enemies.append(Enemy())  # crea nemico
+        spawn_timer = 0
+
+    # ---------------- ENEMIES UPDATE ----------------
+
+    for enemy in enemies:
+
+        enemy.move()
+        enemy.draw(screen)
+
+    # ---------------- UI ----------------
+
     lives_text = font.render(
         f"Vite: {player.lives}",
         True,
