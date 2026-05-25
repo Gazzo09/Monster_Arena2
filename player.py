@@ -1,3 +1,4 @@
+
 import pygame
 
 class Player:
@@ -12,11 +13,14 @@ class Player:
 
         self.speed = 5
 
-        # --- SALTO / GRAVITÀ ---
+        # salto / gravità
         self.vel_y = 0
         self.gravity = 0.8
         self.jump_power = -15
         self.on_ground = True
+
+        # ❤️ VITE (NUOVO)
+        self.lives = 3
 
     def move(self, keys):
 
@@ -26,7 +30,6 @@ class Player:
         if keys[pygame.K_d]:
             self.x += self.speed
 
-        # SALTO
         if keys[pygame.K_SPACE] and self.on_ground:
             self.vel_y = self.jump_power
             self.on_ground = False
@@ -36,7 +39,6 @@ class Player:
         self.vel_y += self.gravity
         self.y += self.vel_y
 
-        # pavimento
         if self.y >= 350:
             self.y = 350
             self.vel_y = 0
@@ -49,4 +51,5 @@ class Player:
             (0, 255, 0),
             (self.x, self.y, self.width, self.height)
         )
+        
         )

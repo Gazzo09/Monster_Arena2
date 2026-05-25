@@ -14,6 +14,9 @@ clock = pygame.time.Clock()
 
 player = Player()
 
+# FONT (NUOVO)
+font = pygame.font.SysFont(None, 40)
+
 running = True
 
 while running:
@@ -33,6 +36,15 @@ while running:
     player.apply_gravity()
 
     player.draw(screen)
+
+    # ❤️ UI VITE (NUOVO)
+    lives_text = font.render(
+        f"Vite: {player.lives}",
+        True,
+        (255, 255, 255)
+    )
+
+    screen.blit(lives_text, (20, 20))
 
     pygame.display.flip()
 
