@@ -30,6 +30,7 @@ while running:
     screen.fill((30, 30, 30))
 
     player.move(keys)
+    player.apply_gravity()
 
     player.draw(screen)
 
