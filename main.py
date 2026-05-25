@@ -1,6 +1,5 @@
-print("Monster_arena)
-
 import pygame
+from player import Player
 
 pygame.init()
 
@@ -13,11 +12,15 @@ pygame.display.set_caption("Dino Shooter")
 
 clock = pygame.time.Clock()
 
+player = Player()
+
 running = True
 
 while running:
 
     clock.tick(60)
+
+    keys = pygame.key.get_pressed()
 
     for event in pygame.event.get():
 
@@ -26,7 +29,10 @@ while running:
 
     screen.fill((30, 30, 30))
 
+    player.move(keys)
+
+    player.draw(screen)
+
     pygame.display.flip()
 
 pygame.quit()
-      
