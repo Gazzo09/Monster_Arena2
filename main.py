@@ -23,8 +23,8 @@ bullets = []
 spawn_timer = 0
 spawn_rate = 120
 
-# 🟡 NUOVO: sistema kill
 kills = 0
+level = 0
 
 font = pygame.font.SysFont(None, 40)
 
@@ -33,7 +33,6 @@ running = True
 while running:
 
     clock.tick(60)
-
     keys = pygame.key.get_pressed()
 
     for event in pygame.event.get():
@@ -41,16 +40,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # 🔫 SPARO
         if event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_f:
 
                 bullets.append(
-                    Bullet(
-                        player.x + player.width,
-                        player.y + player.height // 2
-                    )
+                    Bullet(player.x + player.width, player.y + 20)
                 )
 
     # ---------------- BACKGROUND ----------------
@@ -61,55 +55,73 @@ while running:
     player.apply_gravity()
     player.draw(screen)
 
-    # ---------------- SPAWN ENEMIES ----------------
+    # ---------------- SPAWN ----------------
     spawn_timer += 1
 
     if spawn_timer >= spawn_rate:
-        enemies.append(Enemy())
+
+        enemies.append(Enemy(level))  # 🟧 level passa ai nemici
         spawn_timer = 0
 
-    # ---------------- ENEMIES UPDATE ----------------
+    # ---------------- ENEMIES ----------------
     for enemy in enemies[:]:
 
         enemy.move()
         enemy.draw(screen)
 
-        # ❌ se esce dallo schermo → perdi vita
+        # perdita vita se esce
         if enemy.x < -100:
             enemies.remove(enemy)
             player.lives -= 1
 
-    # ---------------- BULLETS UPDATE + COLLISIONI ----------------
+    # ---------------- BULLETS + COLLISIONI ----------------
     for bullet in bullets[:]:
 
         bullet.move()
         bullet.draw(screen)
 
-        # elimina fuori schermo
         if bullet.x > WIDTH:
             bullets.remove(bullet)
             continue
 
-        # 🔥 COLLISIONE BULLET - ENEMY
         for enemy in enemies[:]:
 
             if bullet.rect().colliderect(enemy.rect()):
 
-                enemies.remove(enemy)
+                enemy.hp -= player.damage  # 🟧 danno player
+
                 bullets.remove(bullet)
 
-                kills += 1  # 🟡 AUMENTA KILL
+                if enemy.hp <= 0:
+
+                    enemies.remove(enemy)
+
+                    kills += 1
+
+                    # 🟧 LEVEL SYSTEM
+                    if kills % 20 == 0:
+
+                        level += 1
+                        spawn_rate = max(25, spawn_rate - 10)
+
+                        upgrade = random.choice([
+                            "extra_life",
+                            "more_damage",
+                            "fast_shoot"
+                        ])
+
+                        player.apply_upgrade(upgrade)
 
                 break
 
     # ---------------- UI ----------------
-    text = font.render(
-        f"Vite: {player.lives}  Kills: {kills}",
+    ui = font.render(
+        f"Vite: {player.lives}  Kills: {kills}  Level: {level}",
         True,
         (255, 255, 255)
     )
 
-    screen.blit(text, (20, 20))
+    screen.blit(ui, (20, 20))
 
     pygame.display.flip()
 
