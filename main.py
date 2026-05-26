@@ -129,7 +129,7 @@ while running:
                             "fast_shoot"
                         ])
 
-                        player.apply_upgrade(upgrade)
+                        Player.apply_upgrade(upgrade)
 
                 break
 

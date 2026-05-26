@@ -158,7 +158,7 @@ class Player:
     def apply_upgrade(self, upgrade):
 
         if upgrade in self.upgrades:
-            player.apply_special_shot()
+            Player.apply_special_shot()
 
         self.upgrades.add(upgrade)
 
