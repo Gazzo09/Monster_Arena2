@@ -5,9 +5,9 @@ class Player:
 
     def __init__(self):
 
-        # posizione
+        # posizione iniziale corretta sul pavimento
         self.x = 100
-        self.y = 570
+        self.y = 350
 
         # dimensioni
         self.width = 60
@@ -30,7 +30,7 @@ class Player:
         self.damage = 1
         self.fire_rate = 500
 
-        # upgrade
+        # registro potenziamenti inseriti
         self.upgrades = set()
 
         # direzione player
@@ -73,9 +73,7 @@ class Player:
 
     def draw(self, screen):
 
-        #
         # ===== TESTA =====
-        #
         pygame.draw.circle(
             screen,
             self.head_color,
@@ -83,18 +81,14 @@ class Player:
             20
         )
 
-        #
         # ===== CORPO =====
-        #
         pygame.draw.rect(
             screen,
             self.body_color,
             (self.x + 15, self.y + 40, 30, 40)
         )
 
-        #
         # ===== BRACCIO =====
-        #
         pygame.draw.line(
             screen,
             (20, 80, 20),
@@ -103,9 +97,7 @@ class Player:
             6
         )
 
-        #
         # ===== GAMBE =====
-        #
         pygame.draw.line(
             screen,
             (0, 0, 255),
@@ -122,9 +114,7 @@ class Player:
             6
         )
 
-        #
         # ===== FUCILE =====
-        #
         if self.facing_right:
 
             # corpo arma
@@ -156,26 +146,18 @@ class Player:
             )
 
     def apply_upgrade(self, upgrade):
-
+        
         self.upgrades.add(upgrade)
 
         if upgrade == "extra_life":
-
             if self.lives < self.max_lives:
                 self.lives += 1
 
         elif upgrade == "more_damage":
-
-            self.damage += 15
+            self.damage += 50
 
         elif upgrade == "fast_shoot":
-
             self.fire_rate = max(100, self.fire_rate - 100)
 
-        elif upgrade == "speed_boost":
-
+        elif upgrade == "more_speed":
             self.speed += 2
-
-        elif upgrade == "super_jump":
-
-            self.jump_power -= 3

@@ -26,6 +26,10 @@ spawn_rate = 120
 kills = 0
 level = 0
 
+# Variabili per la gestione visiva del raggio rosso (special_shot)
+special_shot_timer = 0
+draw_special_shot = False
+
 font = pygame.font.SysFont(None, 40)
 big_font = pygame.font.SysFont(None, 80)
 
@@ -43,7 +47,6 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
-
                 bullets.append(
                     Bullet(player.x + player.width, player.y + 20)
                 )
@@ -82,7 +85,6 @@ while running:
     spawn_timer += 1
 
     if spawn_timer >= spawn_rate:
-
         enemies.append(Enemy(level))
         spawn_timer = 0
 
@@ -124,15 +126,41 @@ while running:
                         level += 1
                         spawn_rate = max(25, spawn_rate - 10)
 
+                        # Lista aggiornata dei potenziamenti utilizzabili
                         upgrade = random.choice([
                             "extra_life",
                             "more_damage",
-                            "fast_shoot"
+                            "fast_shoot",
+                            "more_speed"
                         ])
 
-                        player.apply_upgrade(upgrade)
+                        # CONTROLLO POTENZIAMENTO DOPPIO
+                        if upgrade in player.upgrades:
+                            
+                            # Attiva l'effetto grafico dello special_shot
+                            draw_special_shot = True
+                            special_shot_timer = 20  # Durata del raggio in frame
+                            
+                            # Elimina tutti i nemici e aggiunge i punti alle uccisioni
+                            for _ in enemies:
+                                kills += 1
+                            enemies.clear()
+                            
+                        else:
+                            # Se non lo ha ancora, lo assegna normalmente
+                            player.apply_upgrade(upgrade)
 
                 break
+
+    # ---------------- EFFECT: SPECIAL SHOT (RAGGIO ROSSO) ----------------
+    if draw_special_shot:
+        # Disegna un raggio distruttivo rosso che attraversa tutto lo schermo orizzontalmente
+        laser_rect = pygame.Rect(0, 150, WIDTH, 200)
+        pygame.draw.rect(screen, (255, 0, 0), laser_rect)
+        
+        special_shot_timer -= 1
+        if special_shot_timer <= 0:
+            draw_special_shot = False
 
     # ---------------- UI ----------------
     ui = font.render(
