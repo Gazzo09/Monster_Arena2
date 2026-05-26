@@ -5,12 +5,12 @@ class Player:
 
     def __init__(self):
 
-        self.super_shot_active = False  
-
         # posizione
         self.x = 100
-        self.y = 370
+        self.y = 350
 
+        self.width = 50
+        self.height = 50
         # dimensioni
         self.width = 60
         self.height = 80
@@ -19,15 +19,19 @@ class Player:
         self.speed = 5
 
         # salto
-        self.vel_y = 0
-        self.gravity = 0.8
+@@ -18,56 +22,163 @@ def __init__(self):
         self.jump_power = -15
         self.on_ground = True
 
+        # vite
         # stats
         self.max_lives = 5
         self.lives = 3
 
+        # 🟡 NUOVO: set potenziamenti
+        self.upgrades = set()
+
+        # danno e sparo
         # arma
         self.damage = 1
         self.fire_rate = 500
@@ -55,6 +59,8 @@ class Player:
 
         # salto
         if keys[pygame.K_SPACE] and self.on_ground:
+            self.vel_y = self.jump_power
+            self.on_ground = False
             self.jump()
 
     def jump(self):
@@ -90,6 +96,8 @@ class Player:
         #
         pygame.draw.rect(
             screen,
+            (0, 255, 0),
+            (self.x, self.y, self.width, self.height)
             self.body_color,
             (self.x + 15, self.y + 40, 30, 40)
         )
@@ -105,6 +113,7 @@ class Player:
             6
         )
 
+    # 🟡 NUOVO: sistema upgrade
         #
         # ===== GAMBE =====
         #
@@ -165,6 +174,7 @@ class Player:
         self.upgrades.add(upgrade)
 
         if upgrade == "extra_life":
+            self.lives += 1
 
             if self.lives < self.max_lives:
                 self.lives += 1
@@ -184,4 +194,3 @@ class Player:
         elif upgrade == "super_jump":
 
             self.jump_power -= 3
-
