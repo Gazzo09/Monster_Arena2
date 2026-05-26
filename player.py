@@ -158,7 +158,7 @@ class Player:
     def apply_upgrade(self, upgrade):
 
         if upgrade in self.upgrades:
-            return
+            player.apply_special_shot()
 
         self.upgrades.add(upgrade)
 
@@ -169,7 +169,7 @@ class Player:
 
         elif upgrade == "more_damage":
 
-            self.damage += 1
+            self.damage += 25
 
         elif upgrade == "fast_shoot":
 
@@ -182,3 +182,5 @@ class Player:
         elif upgrade == "super_jump":
 
             self.jump_power -= 3
+    def apply_special_shot():
+        enemy.hp-=1000

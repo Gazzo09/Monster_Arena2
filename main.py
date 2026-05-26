@@ -11,7 +11,7 @@ WIDTH = 1000
 HEIGHT = 500
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Dino Shooter")
+pygame.display.set_caption("Zombie_Arena2")
 
 clock = pygame.time.Clock()
 
