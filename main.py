@@ -110,7 +110,7 @@ while running:
 
             if bullet.rect().colliderect(enemy.rect()):
 
-                enemy.hp -= player.damage
+                enemy.hp -= 50
                 bullets.remove(bullet)
 
                 if enemy.hp <= 0:
