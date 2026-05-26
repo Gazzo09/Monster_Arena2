@@ -7,7 +7,7 @@ class Player:
 
         # posizione
         self.x = 100
-        self.y = 350
+        self.y = 370
 
         # dimensioni
         self.width = 60
@@ -166,7 +166,7 @@ class Player:
 
         elif upgrade == "more_damage":
 
-            self.damage += 50
+            self.damage += 25
 
         elif upgrade == "fast_shoot":
 
