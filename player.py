@@ -19,7 +19,7 @@ class Player:
         self.speed = 5
 
         # salto
-@@ -18,56 +22,163 @@ def __init__(self):
+    def __init__(self):
         self.jump_power = -15
         self.on_ground = True
 
