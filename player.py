@@ -157,9 +157,6 @@ class Player:
 
     def apply_upgrade(self, upgrade):
 
-        if upgrade in self.upgrades:
-            return
-
         self.upgrades.add(upgrade)
 
         if upgrade == "extra_life":
@@ -169,7 +166,7 @@ class Player:
 
         elif upgrade == "more_damage":
 
-            self.damage += 1
+            self.damage += 50
 
         elif upgrade == "fast_shoot":
 
