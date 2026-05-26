@@ -7,7 +7,7 @@ class Player:
 
         # posizione
         self.x = 100
-        self.y = 350
+        self.y = 370
 
         # dimensioni
         self.width = 60
@@ -158,7 +158,7 @@ class Player:
     def apply_upgrade(self, upgrade):
 
         if upgrade in self.upgrades:
-            Player.apply_special_shot()
+            player.super_shot_active
 
         self.upgrades.add(upgrade)
 
