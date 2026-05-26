@@ -1,4 +1,3 @@
-
 import pygame
 
 class Player:
@@ -13,14 +12,21 @@ class Player:
 
         self.speed = 5
 
-        # salto / gravità
+        # salto
         self.vel_y = 0
         self.gravity = 0.8
         self.jump_power = -15
         self.on_ground = True
 
-        # ❤️ VITE (NUOVO)
+        # vite
         self.lives = 3
+
+        # 🟡 NUOVO: set potenziamenti
+        self.upgrades = set()
+
+        # danno e sparo
+        self.damage = 1
+        self.fire_rate = 500
 
     def move(self, keys):
 
@@ -51,5 +57,17 @@ class Player:
             (0, 255, 0),
             (self.x, self.y, self.width, self.height)
         )
-        
-        )
+
+    # 🟡 NUOVO: sistema upgrade
+    def apply_upgrade(self, upgrade):
+
+        self.upgrades.add(upgrade)
+
+        if upgrade == "extra_life":
+            self.lives += 1
+
+        elif upgrade == "more_damage":
+            self.damage += 1
+
+        elif upgrade == "fast_shoot":
+            self.fire_rate = max(100, self.fire_rate - 100)
