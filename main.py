@@ -114,12 +114,14 @@ while running:
 
         for enemy in enemies[:]:
 
-            if bullet.rect().colliderect(enemy.rect()):
+            # Rimosse le parentesi da rect() -> diventa rect
+            if bullet.rect.colliderect(enemy.rect):
 
                 # Usa il danno specifico del proiettile se impostato, altrimenti quello del player
                 damage_to_deal = getattr(bullet, 'damage', player.damage)
                 enemy.hp -= damage_to_deal
                 bullets.remove(bullet)
+
 
                 if enemy.hp <= 0:
 
