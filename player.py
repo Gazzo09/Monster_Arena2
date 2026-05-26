@@ -182,5 +182,4 @@ class Player:
         elif upgrade == "super_jump":
 
             self.jump_power -= 3
-    def apply_special_shot():
-        enemy.hp-=1000
+
