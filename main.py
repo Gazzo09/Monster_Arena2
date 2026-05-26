@@ -11,7 +11,7 @@ WIDTH = 1000
 HEIGHT = 500
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Zombie_Arena2")
+pygame.display.set_caption("Dino Shooter")
 
 clock = pygame.time.Clock()
 
@@ -43,10 +43,16 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
-
-                bullets.append(
-                    Bullet(player.x + player.width, player.y + 20)
-                )
+                # Controlla se il giocatore ha il super colpo caricato
+                if player.super_shot_active:
+                    new_bullet = Bullet(player.x + player.width, player.y + 20)
+                    new_bullet.damage = 1000  # Modifica il danno del singolo proiettile
+                    bullets.append(new_bullet)
+                    player.super_shot_active = False  # Consuma il super colpo
+                else:
+                    bullets.append(
+                        Bullet(player.x + player.width, player.y + 20)
+                    )
 
     # ---------------- BACKGROUND ----------------
     screen.fill((30, 30, 30))
@@ -110,7 +116,9 @@ while running:
 
             if bullet.rect().colliderect(enemy.rect()):
 
-                enemy.hp -= 50
+                # Usa il danno specifico del proiettile se impostato, altrimenti quello del player
+                damage_to_deal = getattr(bullet, 'damage', player.damage)
+                enemy.hp -= damage_to_deal
                 bullets.remove(bullet)
 
                 if enemy.hp <= 0:
@@ -123,9 +131,10 @@ while running:
                         level += 1
                         spawn_rate = max(25, spawn_rate - 10)
 
+                        # Allinea la scelta agli upgrade definiti nel file player
                         upgrade = random.choice([
                             "extra_life",
-                            "more_damage",
+                            "more_speed",
                             "fast_shoot"
                         ])
 
@@ -142,8 +151,13 @@ while running:
 
     screen.blit(ui, (20, 20))
 
+    # Mostra lo stato degli upgrade (il set convertito in lista) e se il colpo speciale è pronto
+    status_text = f"Upgrades: {list(player.upgrades)}"
+    if player.super_shot_active:
+        status_text += " [SUPER SHOT READY!]"
+
     upgrade_ui = font.render(
-        f"Upgrades: {list(player.upgrades)}",
+        status_text,
         True,
         (255, 255, 0)
     )

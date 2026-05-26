@@ -32,9 +32,6 @@ class Enemy:
         # Genera la grafica mista (Zombie + UFO)
         self.image = self.generate_pixel_art()
 
-    def apply_special_shot():
-        enemy.hp-=1000
-
     def generate_pixel_art(self):
         # Palette Colori (Zombie + UFO)
         _ = (0, 0, 0, 0)            # Trasparente
