@@ -154,7 +154,7 @@ class Player:
                 self.lives += 1
 
         elif upgrade == "more_damage":
-            self.damage += 50
+            self.damage += 10
 
         elif upgrade == "fast_shoot":
             self.fire_rate = max(100, self.fire_rate - 100)

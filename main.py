@@ -139,7 +139,7 @@ while running:
                             
                             # Attiva l'effetto grafico dello special_shot
                             draw_special_shot = True
-                            special_shot_timer = 20  # Durata del raggio in frame
+                            special_shot_timer = 100  # Durata del raggio in frame
                             
                             # Elimina tutti i nemici e aggiunge i punti alle uccisioni
                             for _ in enemies:
