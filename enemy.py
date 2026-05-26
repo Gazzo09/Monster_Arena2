@@ -3,7 +3,7 @@ import random
 
 class Enemy:
 
-    def __init__(self):
+    def __init__(self, level):
 
         self.type = random.choice(["ground", "fly", "boss"])
 
