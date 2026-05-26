@@ -27,6 +27,7 @@ kills = 0
 level = 0
 
 font = pygame.font.SysFont(None, 40)
+big_font = pygame.font.SysFont(None, 80)
 
 running = True
 
@@ -50,6 +51,28 @@ while running:
     # ---------------- BACKGROUND ----------------
     screen.fill((30, 30, 30))
 
+    # ---------------- GAME OVER CHECK ----------------
+    if player.lives <= 0:
+
+        game_over = big_font.render(
+            "GAME OVER",
+            True,
+            (255, 0, 0)
+        )
+
+        screen.blit(game_over, (300, 200))
+
+        stats = font.render(
+            f"Kills: {kills}  Level: {level}",
+            True,
+            (255, 255, 255)
+        )
+
+        screen.blit(stats, (350, 300))
+
+        pygame.display.flip()
+        continue
+
     # ---------------- PLAYER ----------------
     player.move(keys)
     player.apply_gravity()
@@ -60,7 +83,7 @@ while running:
 
     if spawn_timer >= spawn_rate:
 
-        enemies.append(Enemy(level))  # 🟧 level passa ai nemici
+        enemies.append(Enemy(level))
         spawn_timer = 0
 
     # ---------------- ENEMIES ----------------
@@ -69,12 +92,11 @@ while running:
         enemy.move()
         enemy.draw(screen)
 
-        # perdita vita se esce
         if enemy.x < -100:
             enemies.remove(enemy)
             player.lives -= 1
 
-    # ---------------- BULLETS + COLLISIONI ----------------
+    # ---------------- BULLETS ----------------
     for bullet in bullets[:]:
 
         bullet.move()
@@ -88,17 +110,14 @@ while running:
 
             if bullet.rect().colliderect(enemy.rect()):
 
-                enemy.hp -= player.damage  # 🟧 danno player
-
+                enemy.hp -= player.damage
                 bullets.remove(bullet)
 
                 if enemy.hp <= 0:
 
                     enemies.remove(enemy)
-
                     kills += 1
 
-                    # 🟧 LEVEL SYSTEM
                     if kills % 20 == 0:
 
                         level += 1
@@ -122,6 +141,14 @@ while running:
     )
 
     screen.blit(ui, (20, 20))
+
+    upgrade_ui = font.render(
+        f"Upgrades: {list(player.upgrades)}",
+        True,
+        (255, 255, 0)
+    )
+
+    screen.blit(upgrade_ui, (20, 60))
 
     pygame.display.flip()
 
