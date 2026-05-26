@@ -5,6 +5,8 @@ class Player:
 
     def __init__(self):
 
+        self.super_shot_active = False  
+
         # posizione
         self.x = 100
         self.y = 370
@@ -158,7 +160,7 @@ class Player:
     def apply_upgrade(self, upgrade):
 
         if upgrade in self.upgrades:
-            player.super_shot_active
+            return
 
         self.upgrades.add(upgrade)
 
