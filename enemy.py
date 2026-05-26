@@ -4,7 +4,6 @@ import random
 class Enemy:
 
     def __init__(self, level):
-        self.hp = 100
 
         self.type = random.choice(["ground", "fly", "boss"])
 
@@ -16,16 +15,19 @@ class Enemy:
             self.y = 350
             self.width = 40
             self.height = 40
+            self.hp = 200
 
         elif self.type == "fly":
             self.y = 250
             self.width = 40
             self.height = 40
+            self.hp = 100
 
         else:
             self.y = 300
             self.width = 80
             self.height = 80
+            self.hp = 400
             self.speed = 2  # boss lento
 
     def move(self):
