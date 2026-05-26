@@ -151,15 +151,11 @@ while running:
 
     screen.blit(ui, (20, 20))
 
-    # Mostra lo stato degli upgrade (il set convertito in lista) e se il colpo speciale è pronto
-    status_text = f"Upgrades: {list(player.upgrades)}"
-    if player.super_shot_active:
-        status_text += " [SUPER SHOT READY!]"
 
     upgrade_ui = font.render(
         status_text,
         True,
-        (255, 255, 0)
+        (255, 0, 0)
     )
 
     screen.blit(upgrade_ui, (20, 60))
